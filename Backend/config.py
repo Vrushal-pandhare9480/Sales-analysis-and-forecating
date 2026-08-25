@@ -1,0 +1,14 @@
+import os
+
+RECAPTCHA_SECRET_KEY = os.getenv("RECAPTCHA_SECRET_KEY")
+
+SMTP_EMAIL = os.getenv("SMTP_EMAIL")
+
+SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
+
+DB_HOST = "localhost"
+DB_PORT = 3306
+DB_USER = "root"
+DB_PASSWORD = "9480Topper"
+DB_NAME = "sales_dashboard"
+RECAPTCHA_SECRET_KEY = "6Le5qoItAAAAAAnZhXDwpwLCTxTFD7qhJnRNuSx2"

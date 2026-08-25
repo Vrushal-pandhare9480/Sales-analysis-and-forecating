@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Analysis Dashboard</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Remix Icons -->
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- ================= Sidebar ================= -->
+
+    <aside class="sidebar">
+        
+        <div class="logo">
+
+            <h2>SalesAI</h2>
+
+            <p>Analytics Dashboard</p>
+
+        </div>
+
+        <nav>
+
+            <ul>
+
+                <li data-page="dashboard-page" class="active">
+                    <i class="ri-dashboard-3-line"></i>
+                    <span>Dashboard</span>
+                </li>
+
+                <li data-page="analysis-page">
+                    <i class="ri-bar-chart-box-line"></i>
+                    <span>Sales Analysis</span>
+                </li>
+
+                <li data-page="forecast-page">
+                    <i class="ri-line-chart-line"></i>
+                    <span>Forecast</span>
+                </li>
+
+                <li data-page="sales-data-page">
+                    <i class="ri-database-2-line"></i>
+                    <span>Sales Data</span>
+                </li>
+
+                <li data-page="customers-page">
+                    <i class="ri-group-line"></i>
+                    <span>Customers</span>
+                </li>
+
+                <li data-page="products-page">
+                    <i class="ri-shopping-bag-3-line"></i>
+                    <span>Products</span>
+                </li>
+
+                <li data-page="regions-page">
+                    <i class="ri-map-pin-line"></i>
+                    <span>Regions</span>
+                </li>
+
+                <li data-page="reports-page">
+                    <i class="ri-file-chart-line"></i>
+                    <span>Reports</span>
+                </li>
+
+                <li data-page="about-page">
+                    <i class="ri-information-line"></i>
+                    <span>About</span>
+                </li>
+                <li id="logoutBtn" class="logout-item">
+                <i class="ri-logout-box-r-line"></i>
+                <span>Logout</span>
+                </li>
+            </ul>
+
+        </nav>
+
+    </aside>
+
+    <!-- ================= Main ================= -->
+
+    <main class="main-content">
+
+        <!-- Navbar -->
+
+        <header class="navbar">
+
+            <div>
+
+                <h1>Sales Analysis Dashboard</h1>
+
+                <p>AI Powered Business Intelligence System</p>
+
+            </div>
+
+            <div class="nav-right">
+
+                <!-- <input
+                type="text"
+                placeholder="Search..."> -->
+
+                <i class="ri-notification-3-line"></i>
+
+                <i class="ri-user-3-line"></i>
+
+            </div>
+
+        </header>
+
+        <!-- Dashboard Body -->
+
+     <section id="dashboard-page" class="dashboard page">
+
+           <!-- ================= KPI Cards ================= -->
+
+    <div class="cards">
+
+    <div class="card">
+
+        <div class="card-icon sales">
+            <i class="ri-money-rupee-circle-line"></i>
+        </div>
+
+        <div class="card-info">
+            <h4>Total Sales</h4>
+            <h2 id="total-sales">₹0</h2>
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="card-icon profit">
+            <i class="ri-funds-line"></i>
+        </div>
+
+        <div class="card-info">
+            <h4>Total Profit</h4>
+            <h2 id="total-profit">₹0</h2>
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="card-icon orders">
+            <i class="ri-shopping-cart-2-line"></i>
+        </div>
+
+        <div class="card-info">
+            <h4>Total Orders</h4>
+            <h2 id="total-orders">0</h2>
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="card-icon customers">
+            <i class="ri-group-line"></i>
+        </div>
+
+        <div class="card-info">
+            <h4>Customers</h4>
+            <h2 id="total-customers">0</h2>
+        </div>
+
+    </div>
+
+</div>
+    <!-- ================= Charts Section ================= -->
+    <!-- ================= Second Charts ================= -->
+
+<div class="bottom-charts">
+
+    <div class="chart-card">
+
+        <div class="card-header">
+
+            <h3>Category Analysis</h3>
+
+        </div>
+
+        <div class="analysis-chart">
+
+    <canvas id="dashboardCategoryChart"></canvas>
+
+</div>
+
+    </div>
+
+    <div class="chart-card">
+
+        <div class="card-header">
+
+            <h3>Forecast Sales</h3>
+
+        </div>
+
+        <div class="analysis-chart forecast-chart">
+    <canvas id="dashboardForecastChart"></canvas>
+</div>
+
+    </div>
+
+</div>
+<div class="charts-section">
+
+    <!-- Main Chart -->
+
+    <div class="chart-card large-chart">
+
+        <div class="card-header">
+
+            <h3>Sales Trend</h3>
+
+            <button>View Report</button>
+
+        </div>
+
+        <div class="analysis-chart sales-trend-chart">
+    <canvas id="salesTrendChart"></canvas>
+</div>
+
+    </div>
+
+    <!-- Region Chart -->
+
+    <div class="chart-card">
+
+        <div class="card-header">
+
+            <h3>Revenue by Region</h3>
+
+        </div>
+
+        <div class="chart-placeholder">
+
+            <canvas id="regionChart"></canvas>
+
+        </div>
+
+    </div>
+
+</div>
+    <!-- ================= Bottom Charts ================= -->
+
+
+        <!-- ================= Recent Orders ================= -->
+
+<div class="table-card">
+
+    <div class="card-header">
+
+    <h3>Recent Orders</h3>
+
+    <div class="recent-orders-controls">
+
+    <label for="recentOrdersLimit">
+        Show:
+    </label>
+
+    <input
+        type="number"
+        id="recentOrdersLimit"
+        value="10"
+        min="1"
+        max="70"
+        placeholder="10"
+    >
+
+    <button id="viewAllOrdersBtn">
+        View All
+    </button>
+
+</div>
+
+</div>
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Product</th>
+                <th>Region</th>
+                <th>Sales</th>
+                <th>Profit</th>
+            </tr>
+        </thead>
+
+        <tbody id="recentOrdersTableBody">
+        </tbody>
+
+    </table>
+
+</div>
+    </section>
+    <section id="analysis-page" class="page">
+
+    <div class="page-header">
+        <h1>Sales Analysis</h1>
+        <p>Business Performance Insights</p>
+    </div>
+
+    <div class="analysis-cards">
+
+        <div class="analysis-card">
+
+    <div class="kpi-icon">
+        <i class="fa-solid fa-indian-rupee-sign"></i>
+    </div>
+
+    <div class="kpi-content">
+        <h4>Total Sales</h4>
+        <h2 id="salesTotal">₹0</h2>
+    </div>
+
+</div>
+
+<div class="analysis-card">
+
+    <div class="kpi-icon">
+        <i class="fa-solid fa-chart-line"></i>
+    </div>
+
+    <div class="kpi-content">
+        <h4>Total Profit</h4>
+        <h2 id="profitTotal">₹0</h2>
+    </div>
+
+</div>
+
+
+<div class="analysis-card">
+
+    <div class="kpi-icon">
+        <i class="fa-solid fa-cart-shopping"></i>
+    </div>
+
+    <div class="kpi-content">
+        <h4>Total Orders</h4>
+        <h2 id="ordersTotal">0</h2>
+    </div>
+
+</div>
+
+
+<div class="analysis-card">
+
+    <div class="kpi-icon">
+        <i class="fa-solid fa-percent"></i>
+    </div>
+
+    <div class="kpi-content">
+        <h4>Average Discount</h4>
+        <h2 id="discountAverage">0%</h2>
+    </div>
+
+</div>
+
+    </div>
+
+    <div class="analysis-row">
+
+    <!-- Sales by Category -->
+    <div class="analysis-box">
+
+        <h3>Sales by Category</h3>
+
+        <div class="analysis-chart-area">
+            <canvas id="analysisCategoryChart"></canvas>
+        </div>
+
+    </div>
+
+
+    <!-- Sales by Region -->
+    <div class="analysis-box">
+
+        <h3>Sales by Region</h3>
+
+        <div class="analysis-chart-area">
+            <canvas id="analysisRegionChart"></canvas>
+        </div>
+
+    </div>
+
+</div>
+    <div class="analysis-large">
+
+    <div class="analysis-header">
+
+        <h3>Monthly Sales Trend</h3>
+
+        <button>View Report</button>
+
+    </div>
+
+    <div class="analysis-chart">
+
+        <canvas id="monthlySalesChart"></canvas>
+
+    </div>
+
+</div>
+<div class="analysis-large">
+
+    <div class="analysis-header">
+
+        <h3>Top 10 Selling Products</h3>
+
+        <button>Top Products</button>
+
+    </div>
+
+    <div class="analysis-chart">
+
+        <canvas id="topProductsChart"></canvas>
+
+    </div>
+
+</div>
+<div class="insights">
+
+    <h3>Business Insights</h3>
+
+<ul id="businessInsightsList">
+    
+    <li>Loading insights...</li>
+
+</ul>
+
+</div>
+</section>
+
+<section id="forecast-page" class="page">
+
+    <div class="page-header">
+        <h1>Sales Forecast</h1>
+        <p>Machine Learning Sales Prediction Dashboard</p>
+    </div>
+
+    <div class="analysis-cards">
+
+    <div class="analysis-card">
+
+        <div class="kpi-icon">
+            <i class="fa-solid fa-indian-rupee-sign"></i>
+        </div>
+
+        <div class="kpi-content">
+            <h4>Next Month Sales</h4>
+            <h2 id="next-month-sales">₹0</h2>
+        </div>
+
+    </div>
+
+
+    <div class="analysis-card">
+
+        <div class="kpi-icon">
+            <i class="fa-solid fa-arrow-trend-up"></i>
+        </div>
+
+        <div class="kpi-content">
+            <h4>Growth Rate</h4>
+            <h2 id="growth-rate">0%</h2>
+        </div>
+
+    </div>
+
+    <div class="analysis-card">
+
+        <div class="kpi-icon">
+            <i class="fa-solid fa-calendar-days"></i>
+        </div>
+
+        <div class="kpi-content">
+            <h4>Prediction Period</h4>
+            <h2 id="prediction-period">0 Months</h2>
+        </div>
+
+    </div>
+
+</div>
+
+    <div class="analysis-large">
+
+        <div class="analysis-header">
+            <h3>Sales Forecast Graph</h3>
+            <button>Run Prediction</button>
+        </div>
+
+        <div class="analysis-chart">
+
+    <canvas id="forecastChart"></canvas>
+
+</div>
+
+    </div>
+
+</section>
+
+
+<section id="sales-data-page" class="page">
+
+    <div class="page-header">
+        <h1>Sales Data</h1>
+        <p>View and Manage Sales Records</p>
+    </div>
+
+    <div class="data-toolbar">
+
+    <input
+        type="text"
+        id="salesSearch"
+        placeholder="Search Product..."
+    >
+
+    <select id="salesCategory">
+        <option value="">All Categories</option>
+        <option value="Furniture">Furniture</option>
+        <option value="Technology">Technology</option>
+        <option value="Office Supplies">Office Supplies</option>
+    </select>
+
+    <select id="salesRegion">
+        <option value="">All Regions</option>
+        <option value="East">East</option>
+        <option value="West">West</option>
+        <option value="North">North</option>
+        <option value="South">South</option>
+    </select>
+
+    <input
+    type="number"
+    id="salesLimit"
+    placeholder="Rows"
+    min="1"
+    value="10"
+>
+
+    <button id="exportSalesBtn">
+        Export Excel
+    </button>
+
+</div>
+
+    <div class="table-card">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Order ID</th>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Region</th>
+                    <th>Sales</th>
+                    <th>Profit</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="salesTableBody">
+
+            </tbody>
+
+        </table>
+    </div>
+
+</section>
+
+<section id="customers-page" class="page">
+
+    <div class="page-header">
+
+        <h1>Customer Analytics</h1>
+
+        <p>Analyze Customer Performance & Growth</p>
+
+    </div>
+
+    <div class="analysis-cards">
+
+        <div class="analysis-card">
+            <div class="card-icon">
+        <i class="ri-group-line"></i>
+    </div>
+            <h4>Total Customers</h4>
+            <h2 id="totalCustomers">0</h2>
+        </div>
+
+        <div class="analysis-card">
+            <div class="card-icon">
+        <i class="ri-user-add-line"></i>
+    </div>
+            <h4>New Customers</h4>
+            <h2 id="newCustomers">58</h2>
+        </div>
+
+        <div class="analysis-card">
+            <div class="card-icon">
+        <i class="ri-repeat-line"></i>
+    </div>
+            <h4>Repeat Customers</h4>
+            <h2 id="repeatCustomers">412</h2>
+        </div>
+
+    </div>
+
+    <div class="analysis-row">
+
+        <div class="analysis-box">
+
+    <h3>Customers by Region</h3>
+
+    <div class="region-chart-container">
+        <canvas id="customerRegionChart"></canvas>
+    </div>
+
+</div>
+
+       <div class="analysis-box">
+
+    <h3>Customer Growth</h3>
+
+    <div class="region-chart-container">
+        <canvas id="customerGrowthChart"></canvas>
+    </div>
+
+</div>
+
+    </div>
+
+   <div class="analysis-large">
+
+    <div class="analysis-header">
+
+        <div class="table-card">
+
+    <div class="card-header">
+
+        <h3>Top Customers</h3>
+
+    </div>
+        <div class="table-toolbar">
+
+    <div class="table-toolbar">
+
+    <input
+        type="text"
+        id="customerSearch"
+        placeholder="Search Customer..."
+    >
+    <select id="customerRegion">
+    <option value="">All Regions</option>
+    <option value="Central">Central</option>
+    <option value="East">East</option>
+    <option value="South">South</option>
+    <option value="West">West</option>
+</select>
+
+    <select id="customerSegment">
+    <option value="">All Segments</option>
+    <option value="Consumer">Consumer</option>
+    <option value="Corporate">Corporate</option>
+    <option value="Home Office">Home Office</option>
+</select>
+
+    <label>Show Top</label>
+
+    <input
+        type="number"
+        id="customerLimit"
+        value="10"
+        min="1"
+    >
+
+    <button id="loadCustomersBtn">
+        Load
+    </button>
+
+</div>
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Customer</th>
+                <th>Segment</th>
+                <th>Region</th>
+                <th>Orders</th>
+                <th>Sales</th>
+                <th>Profit</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="customersTableBody">
+
+        </tbody>
+
+    </table>
+
+</div>
+</section>
+
+<section id="products-page" class="page" style="display:none;">
+
+    <div class="page-header">
+        <h1>Products Analytics</h1>
+        <p>Analyze Product Performance</p>
+    </div>
+
+    <div class="analysis-cards">
+
+        <div class="analysis-card">
+             <i class="ri-shopping-bag-3-line card-icon"></i>
+            <h4>Total Products</h4>
+            <h2 id="totalProducts">0</h2>
+        </div>
+
+        <div class="analysis-card">
+            <i class="ri-folder-line card-icon"></i>
+            <h4>Total Categories</h4>
+            <h2 id="totalCategories">0</h2>
+        </div>
+
+        <div class="analysis-card">
+            <i class="ri-trophy-line card-icon"></i>
+            <h4>Best Selling Product</h4>
+            <h2 id="bestProduct">-</h2>
+        </div>
+
+        <div class="analysis-card">
+            <i class="ri-money-rupee-circle-line card-icon"></i>
+            <h4>Average Sales</h4>
+            <h2 id="avgSales">₹0</h2>
+        </div>
+
+    </div>
+
+    <div class="analysis-row">
+
+        <div class="analysis-box">
+            <h3>Top Products</h3>
+            <canvas id="productsChart"></canvas>
+        </div>
+
+        <div class="analysis-box">
+            <h3>Sales by Category</h3>
+            <canvas id="productsCategoryChart"></canvas>
+        </div>
+
+    </div>
+
+    <div class="table-toolbar">
+
+        <input
+            type="text"
+            id="productSearch"
+            placeholder="Search Product..."
+        >
+
+        <select id="productCategory">
+            <option value="">All Categories</option>
+        </select>
+
+        <input
+            type="number"
+            id="productLimit"
+            value="10"
+            min="1"
+        >
+
+        <button id="loadProductsBtn">
+            Load
+        </button>
+
+    </div>
+
+    <div class="products-table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Sales</th>
+                    <th>Profit</th>
+                    <th>Quantity</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="productsTableBody">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+<section id="regions-page" class="page">
+
+    <div class="page-header">
+
+        <h1>Regional Analysis</h1>
+
+        <p>Analyze Sales Performance Across Different Regions</p>
+
+    </div>
+
+    <div class="analysis-cards">
+
+        <div class="analysis-card">
+            <h4>Best Region</h4>
+            <h2 id="bestRegion">-</h2>
+        </div>
+
+        <div class="analysis-card">
+            <h4>Total Regions</h4>
+            <h2 id="totalRegions">0</h2>
+        </div>
+
+        <div class="analysis-card">
+            <h4>Highest Sales</h4>
+            <h2 id="highestRegionSales">₹0</h2>
+        </div>
+
+        <div class="analysis-card">
+            <h4>Highest Profit</h4>
+           <h2 id="highestRegionProfit">₹0</h2>
+        </div>
+
+    </div>
+
+    <div class="analysis-row">
+
+    <!-- Region Sales Chart -->
+    <div class="analysis-box">
+
+        <h3>Region Wise Sales Chart</h3>
+
+        <div class="region-chart-container">
+            <canvas id="regionSalesChart"></canvas>
+        </div>
+
+    </div>
+
+
+    <!-- Region Profit Chart -->
+    <div class="analysis-box">
+
+        <h3>Profit by Region</h3>
+
+        <div class="region-chart-container">
+            <canvas id="regionProfitChart"></canvas>
+        </div>
+
+    </div>
+
+</div>
+
+    <div class="top-products">
+
+        <h3>Region Performance</h3>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Region</th>
+                    <th>Sales</th>
+                    <th>Profit</th>
+                    <th>Orders</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="regionTableBody">
+
+            </tbody>
+
+        </table>
+
+    </div>
+</section>
+
+<section id="reports-page" class="page">
+
+    <div class="page-header">
+        <h1>Reports Center</h1>
+        <p>Generate and Download Business Reports</p>
+    </div>
+
+
+    <!-- REPORT CARDS -->
+
+    <div class="analysis-cards">
+
+        <!-- Sales Report -->
+        <div class="analysis-card">
+            <h4>Sales Report</h4>
+            <p>Download complete sales data.</p>
+
+            <button id="downloadSalesCSV">
+                Download CSV
+            </button>
+        </div>
+
+
+        <!-- Forecast Report -->
+        <div class="analysis-card">
+            <h4>Forecast Report</h4>
+            <p>Download predicted sales data.</p>
+
+            <button id="downloadForecastCSV">
+                Download CSV
+            </button>
+        </div>
+
+
+        <!-- Dashboard Report -->
+        <div class="analysis-card">
+            <h4>Dashboard Report</h4>
+            <p>KPIs and dashboard charts.</p>
+
+            <button id="downloadDashboardPDF">
+                Download PDF
+            </button>
+        </div>
+
+        <!-- Sales Analysis -->
+        <div class="analysis-card">
+            <h4>Sales Analysis Report</h4>
+            <p>Sales KPIs and analysis charts.</p>
+
+            <button id="downloadSalesAnalysisPDF">
+                Download PDF
+            </button>
+        </div>
+
+        <!-- Region Analysis -->
+        <div class="analysis-card">
+            <h4>Region Analysis Report</h4>
+            <p>Regional sales performance and charts.</p>
+
+            <button id="downloadRegionPDF">
+                Download PDF
+            </button>
+        </div>
+
+        <!-- Product Analysis -->
+        <div class="analysis-card">
+            <h4>Product Analysis Report</h4>
+            <p>Product performance and top products.</p>
+
+            <button id="downloadProductPDF">
+                Download PDF
+            </button>
+        </div>
+
+    </div>
+
+</section>
+
+<section id="about-page" class="page">
+
+    <div class="page-header">
+
+        <h1>About Project</h1>
+
+        <p>Sales Analysis & Forecasting Dashboard</p>
+
+    </div>
+
+    <div class="analysis-large">
+
+        <h2>Project Overview</h2>
+
+        <p style="margin-top:15px; line-height:1.8; color:#cbd5e1;">
+
+            This project is developed to analyze historical sales data,
+            generate interactive dashboards, forecast future sales using
+            Machine Learning, and visualize business insights.
+
+        </p>
+
+    </div>
+
+    <div class="analysis-row" style="margin-top:25px;">
+
+        <div class="analysis-box">
+
+            <h3>Technology Stack</h3>
+
+            <br>
+
+            HTML5<br>
+            CSS3<br>
+            JavaScript<br>
+            Python<br>
+            FastAPI<br>
+            MySQL<br>
+            Pandas<br>
+            Scikit-Learn<br>
+            Power BI
+
+        </div>
+
+        <div class="analysis-box">
+
+            <h3>Developer</h3>
+
+            <br>
+
+            Name : Vrushal Pandhare
+
+            <br><br>
+
+            Diploma IT Student
+
+            <br><br>
+
+            Sales Analysis & Forecasting Project
+
+        </div>
+
+    </div>
+
+</section>
+    </main>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Login | Sales Analysis & Forecasting</title>
+
+    <link rel="stylesheet"
+          href="css/login.css">
+
+    <!-- Google reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js"
+            async
+            defer>
+    </script>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="login-box">
+
+            <h1>Sales Analysis</h1>
+
+            <h2>Welcome Back</h2>
+
+            <p>
+                Verify your email to continue
+            </p>
+
+            <form id="loginForm">
+
+                <!-- Gmail -->
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your Gmail"
+                    required
+                >
+
+                <!-- CAPTCHA -->
+                <div
+                    class="g-recaptcha"
+                    data-sitekey="6Le5qoItAAAAALCAT3J1RVzjaRQkFXyymgQHq9Pm">
+                </div>
+
+                <!-- Continue -->
+                <button type="submit">
+                    Continue
+                </button>
+
+                <p id="loginMessage"></p>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <script src="js/login.js"></script>
+
+</body>
+
+</html>
