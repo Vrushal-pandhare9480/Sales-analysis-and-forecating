@@ -88,12 +88,6 @@ button:hover{
 
 }
 
-.g-recaptcha {
-    margin: 20px 0;
-    display: flex;
-    justify-content: center;
-}
-
 #loginMessage {
     margin-top: 15px;
     color: #f87171;

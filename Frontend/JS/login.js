@@ -154,19 +154,7 @@ loginForm.addEventListener("submit", async function (event) {
     const email =
         document.getElementById("email").value.trim();
 
-    // Get reCAPTCHA token
-    const captchaToken =
-        grecaptcha.getResponse();
 
-
-    // Check CAPTCHA
-    if (!captchaToken) {
-
-        loginMessage.innerText =
-            "Please complete the CAPTCHA.";
-
-        return;
-    }
 
 
     loginMessage.innerText =
@@ -189,7 +177,7 @@ loginForm.addEventListener("submit", async function (event) {
 
                     email: email,
 
-                    captcha_token: captchaToken
+                    // captcha_token: captchaToken
 
                 })
 
@@ -222,8 +210,6 @@ loginForm.addEventListener("submit", async function (event) {
                 data.detail ||
                 "Verification failed.";
 
-            grecaptcha.reset();
-
         }
 
     }
@@ -237,7 +223,6 @@ loginForm.addEventListener("submit", async function (event) {
         loginMessage.innerText =
             "Unable to connect to server.";
 
-        grecaptcha.reset();
 
     }
 
