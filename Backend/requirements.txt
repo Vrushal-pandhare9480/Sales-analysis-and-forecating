@@ -12,3 +12,5 @@ requests
 python-multipart
 seaborn
 openpyxl
+email-validator
+
