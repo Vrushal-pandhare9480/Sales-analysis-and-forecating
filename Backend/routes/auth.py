@@ -1,13 +1,12 @@
 import random
 import time
 import os
-import requests
+
 
 from dotenv import load_dotenv
 
 load_dotenv()
 
-from config import RECAPTCHA_SECRET_KEY
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, EmailStr
@@ -79,8 +78,6 @@ class SendOTPRequest(BaseModel):
 
     email: EmailStr
 
-    captcha_token: str
-
 
 class VerifyOTPRequest(BaseModel):
 
@@ -99,33 +96,6 @@ def send_otp(request: SendOTPRequest):
     # --------------------------------------------------
     # 1. CAPTCHA CHECK
     # --------------------------------------------------
-
-    if not RECAPTCHA_SECRET_KEY:
-
-        raise HTTPException(
-            status_code=500,
-            detail="reCAPTCHA secret key not configured"
-        )
-
-
-    captcha_response = requests.post(
-        "https://www.google.com/recaptcha/api/siteverify",
-        data={
-            "secret": RECAPTCHA_SECRET_KEY,
-            "response": request.captcha_token
-        }
-    )
-
-
-    captcha_data = captcha_response.json()
-
-
-    if not captcha_data.get("success"):
-
-        raise HTTPException(
-            status_code=400,
-            detail="CAPTCHA verification failed"
-        )
 
 
     # --------------------------------------------------
