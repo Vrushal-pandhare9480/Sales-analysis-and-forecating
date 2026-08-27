@@ -46,18 +46,18 @@ def send_otp_email(receiver_email, otp):
 
     msg.set_content(
         f"""
-Hello,
+        Hello,
 
-Welcome to the Sales Analysis & Forecasting Project.
+        Welcome to the Sales Analysis & Forecasting Project.
 
-Your OTP is:
+        Your OTP is:
 
-{otp}
+        {otp}
 
-This OTP is valid for 5 minutes.
+        This OTP is valid for 5 minutes.
 
-Thank you.
-"""
+        Thank you.
+        """
     )
 
     with smtplib.SMTP("smtp.gmail.com", 587) as server:
@@ -186,7 +186,7 @@ def verify_otp(request: VerifyOTPRequest):
 
     send_welcome_email(
     request.email
-)
+    )
     # OTP successfully verified
 
     del otp_store[
@@ -213,26 +213,29 @@ def send_welcome_email(receiver_email):
 
     msg.set_content(
         f"""
-Hello,
+    Hello,
 
-Welcome to Sales Analysis & Forecasting!
+    Welcome to Sales Analysis & Forecasting!
 
-Your email has been successfully verified.
+    Your email has been successfully verified.
 
-You can now access the dashboard and explore:
+    You can now access the dashboard and explore:
 
-• Sales Analysis
-• Product Analytics
-• Customer Analytics
-• Regional Analysis
-• Sales Forecasting
+    • Sales Analysis
+    • Product Analytics
+    • Customer Analytics
+    • Regional Analysis
+    • Sales Forecasting
 
-Thank you for using our Sales Analysis & Forecasting project.
 
-Best Regards,
-Sales Analysis & Forecasting Team
-"""
-    )
+
+
+    Thank you for using our Sales Analysis & Forecasting project.
+
+    Best Regards,
+    Sales Analysis & Forecasting Team
+    """
+        )
 
     with smtplib.SMTP("smtp.gmail.com", 587) as server:
 
@@ -242,7 +245,7 @@ Sales Analysis & Forecasting Team
             SMTP_EMAIL,
             SMTP_PASSWORD
         )
-
+        
         server.send_message(msg)
 
 print("SMTP EMAIL:", SMTP_EMAIL)

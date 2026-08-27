@@ -1,4 +1,5 @@
 from sqlalchemy import create_engine
+
 from config import (
     DB_HOST,
     DB_PORT,
@@ -14,9 +15,5 @@ DATABASE_URL = (
 
 engine = create_engine(
     DATABASE_URL,
-    connect_args={
-        "ssl": {
-            "ssl_verify_cert": True
-        }
-    }
+    pool_pre_ping=True
 )

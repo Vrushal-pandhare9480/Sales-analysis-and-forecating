@@ -63,7 +63,7 @@ function showOTPForm(email) {
             try {
 
                 const response = await fetch(
-                    "https://sales-analysis-and-forecating.onrender.com/auth/verify-otp",
+                    "http://127.0.0.1:8000/auth/verify-otp",
                     {
 
                         method: "POST",
@@ -164,7 +164,7 @@ loginForm.addEventListener("submit", async function (event) {
     try {
 
         const response = await fetch(
-            "https://sales-analysis-and-forecating.onrender.com/auth/send-otp",
+            "http://127.0.0.1:8000/auth/send-otp",
             {
 
                 method: "POST",
