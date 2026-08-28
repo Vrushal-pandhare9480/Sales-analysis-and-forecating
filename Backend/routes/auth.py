@@ -1,12 +1,11 @@
 import random
 import time
 import os
-
+import requests
 
 from dotenv import load_dotenv
 
 load_dotenv()
-
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, EmailStr
@@ -20,53 +19,85 @@ router = APIRouter(
 # CONFIG
 # ======================================================
 
-
-SMTP_EMAIL = os.getenv("SMTP_EMAIL")
-SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
-SMTP_SERVER = os.getenv("SMTP_SERVER", "smtp-relay.brevo.com")
-SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
-
+BREVO_API_KEY = os.getenv("BREVO_API_KEY")
+BREVO_SENDER_EMAIL = os.getenv("SMTP_EMAIL")
 
 # Temporary OTP storage
 otp_store = {}
 
-import smtplib
-from email.message import EmailMessage
+
+# ======================================================
+# BREVO EMAIL FUNCTION
+# ======================================================
+
+def send_email(receiver_email, subject, text_content):
+
+    if not BREVO_API_KEY:
+        raise Exception("BREVO_API_KEY is not configured")
+
+    if not BREVO_SENDER_EMAIL:
+        raise Exception("SMTP_EMAIL is not configured")
+
+    url = "https://api.brevo.com/v3/smtp/email"
+
+    headers = {
+        "accept": "application/json",
+        "api-key": BREVO_API_KEY,
+        "content-type": "application/json"
+    }
+
+    data = {
+        "sender": {
+            "name": "Sales Analysis & Forecasting",
+            "email": BREVO_SENDER_EMAIL
+        },
+        "to": [
+            {
+                "email": receiver_email
+            }
+        ],
+        "subject": subject,
+        "textContent": text_content
+    }
+
+    response = requests.post(
+        url,
+        headers=headers,
+        json=data,
+        timeout=20
+    )
+
+    if response.status_code not in [200, 201]:
+        raise Exception(
+            f"Brevo API Error: {response.status_code} - {response.text}"
+        )
+
+
+# ======================================================
+# OTP EMAIL
+# ======================================================
 
 def send_otp_email(receiver_email, otp):
 
-    msg = EmailMessage()
-
-    msg["Subject"] = "Sales Analysis & Forecasting - OTP"
-    msg["From"] = SMTP_EMAIL
-    msg["To"] = receiver_email
-
-    msg.set_content(
+    send_email(
+        receiver_email,
+        "Sales Analysis & Forecasting - OTP",
         f"""
-        Hello,
+Hello,
 
-        Welcome to the Sales Analysis & Forecasting Project.
+Welcome to the Sales Analysis & Forecasting Project.
 
-        Your OTP is:
+Your OTP is:
 
-        {otp}
+{otp}
 
-        This OTP is valid for 5 minutes.
+This OTP is valid for 5 minutes.
 
-        Thank you.
-        """
+Thank you.
+"""
     )
 
-    with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
 
-        server.starttls()
-
-        server.login(
-            SMTP_EMAIL,
-            SMTP_PASSWORD
-        )
-
-        server.send_message(msg)
 # ======================================================
 # REQUEST MODELS
 # ======================================================
@@ -91,12 +122,7 @@ class VerifyOTPRequest(BaseModel):
 def send_otp(request: SendOTPRequest):
 
     # --------------------------------------------------
-    # 1. CAPTCHA CHECK
-    # --------------------------------------------------
-
-
-    # --------------------------------------------------
-    # 2. GENERATE OTP
+    # 1. GENERATE OTP
     # --------------------------------------------------
 
     otp = str(
@@ -113,23 +139,41 @@ def send_otp(request: SendOTPRequest):
 
     }
 
+    # --------------------------------------------------
+    # 2. SEND OTP EMAIL
+    # --------------------------------------------------
+
+    try:
+
+        send_otp_email(
+            request.email,
+            otp
+        )
+
+    except Exception as e:
+
+        # Remove OTP if email could not be sent
+
+        otp_store.pop(
+            request.email,
+            None
+        )
+
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to send OTP email: {str(e)}"
+        )
 
     # --------------------------------------------------
-    # 3. TEMPORARY DEVELOPMENT RESPONSE
+    # 3. RESPONSE
     # --------------------------------------------------
-
-    send_otp_email(
-    request.email,
-    otp
-)
-
 
     return {
 
         "success": True,
 
         "message":
-            "OTP generated successfully"
+            "OTP sent successfully"
 
     }
 
@@ -145,14 +189,12 @@ def verify_otp(request: VerifyOTPRequest):
         request.email
     )
 
-
     if not user:
 
         raise HTTPException(
             status_code=400,
             detail="OTP not found"
         )
-
 
     # --------------------------------------------------
     # CHECK EXPIRY
@@ -169,7 +211,6 @@ def verify_otp(request: VerifyOTPRequest):
             detail="OTP expired"
         )
 
-
     # --------------------------------------------------
     # CHECK OTP
     # --------------------------------------------------
@@ -181,15 +222,28 @@ def verify_otp(request: VerifyOTPRequest):
             detail="Invalid OTP"
         )
 
-    send_welcome_email(
-    request.email
-    )
+    # --------------------------------------------------
+    # SEND WELCOME EMAIL
+    # --------------------------------------------------
+
+    try:
+
+        send_welcome_email(
+            request.email
+        )
+
+    except Exception as e:
+
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to send welcome email: {str(e)}"
+        )
+
     # OTP successfully verified
 
     del otp_store[
         request.email
     ]
-
 
     return {
 
@@ -200,49 +254,34 @@ def verify_otp(request: VerifyOTPRequest):
 
     }
 
+
+# ======================================================
+# WELCOME EMAIL
+# ======================================================
+
 def send_welcome_email(receiver_email):
 
-    msg = EmailMessage()
+    send_email(
+        receiver_email,
+        "Welcome to Sales Analysis & Forecasting",
+        """
+Hello,
 
-    msg["Subject"] = "Welcome to Sales Analysis & Forecasting"
-    msg["From"] = SMTP_EMAIL
-    msg["To"] = receiver_email
+Welcome to Sales Analysis & Forecasting!
 
-    msg.set_content(
-        f"""
-    Hello,
+Your email has been successfully verified.
 
-    Welcome to Sales Analysis & Forecasting!
+You can now access the dashboard and explore:
 
-    Your email has been successfully verified.
+• Sales Analysis
+• Product Analytics
+• Customer Analytics
+• Regional Analysis
+• Sales Forecasting
 
-    You can now access the dashboard and explore:
+Thank you for using our Sales Analysis & Forecasting project.
 
-    • Sales Analysis
-    • Product Analytics
-    • Customer Analytics
-    • Regional Analysis
-    • Sales Forecasting
-
-
-
-
-    Thank you for using our Sales Analysis & Forecasting project.
-
-    Best Regards,
-    Sales Analysis & Forecasting Team
-    """
-        )
-
-    with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
-
-        server.starttls()
-
-        server.login(
-            SMTP_EMAIL,
-            SMTP_PASSWORD
-        )
-        
-        server.send_message(msg)
-
-
+Best Regards,
+Sales Analysis & Forecasting Team
+"""
+    )
