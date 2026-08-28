@@ -3,6 +3,7 @@ from sklearn.linear_model import LinearRegression
 from sqlalchemy import text
 from database import engine
 
+
 def load_monthly_sales():
 
     query = """
@@ -31,6 +32,7 @@ def load_monthly_sales():
 
     return df
 
+
 def train_model():
 
     df = load_monthly_sales()
@@ -44,6 +46,7 @@ def train_model():
     model.fit(X, y)
 
     return model
+
 
 def predict_next_6_months():
 
@@ -69,33 +72,44 @@ def predict_next_6_months():
         "Predicted_Sales": predictions.round(2)
     })
 
-    return result
+    # ==================================================
+    # CREATE FORECAST TABLE IF IT DOES NOT EXIST
+    # ==================================================
 
-if __name__ == "__main__":
-
-    forecast = predict_next_6_months()
-
-    # Forecast table साफ करा
     with engine.begin() as conn:
-        conn.execute(text("DELETE FROM forecast"))
 
-    # Forecast table मध्ये save करा
-    forecast.rename(
-        columns={"Predicted Sales": "Predicted_Sales"},
-        inplace=True
-    )
+        conn.execute(text("""
+            CREATE TABLE IF NOT EXISTS forecast (
+                Month VARCHAR(50),
+                Predicted_Sales FLOAT
+            )
+        """))
 
-    forecast.to_sql(
+        # Remove old forecast data
+        conn.execute(
+            text("DELETE FROM forecast")
+        )
+
+    # ==================================================
+    # SAVE NEW FORECAST DATA
+    # ==================================================
+
+    result.to_sql(
         "forecast",
         engine,
         if_exists="append",
         index=False
     )
 
+    return result
+
+
+if __name__ == "__main__":
+
+    forecast = predict_next_6_months()
+
     print("Forecast Saved Successfully ✅")
 
     print("\nNext 6 Months Forecast\n")
 
     print(forecast)
-
-
