@@ -1,3 +1,8 @@
+// ================= LOGIN GUARD =================
+if (!localStorage.getItem("session_token")) {
+    window.location.href = "login.html";
+}
+
 alert("Script Loaded");
 const menuItems = document.querySelectorAll(".sidebar li");
 const pages = document.querySelectorAll(".page");
@@ -34,7 +39,7 @@ async function loadDashboardData() {
 
     try {
 
-        const response = await fetch("http://127.0.0.1:8000/dashboard/summary");
+        const response = await fetch("https://sales-analysis-and-forecating.onrender.com/dashboard/summary");
         console.log(response);
 
         const data = await response.json();
@@ -66,7 +71,7 @@ loadDashboardData();
 
 async function loadDashboardRegionChart() {
 
-    const response = await fetch("http://127.0.0.1:8000/analysis/region");
+    const response = await fetch("https://sales-analysis-and-forecating.onrender.com/analysis/region");
 
     const data = await response.json();
 
@@ -126,7 +131,7 @@ loadDashboardRegionChart();
 
 async function loadMonthlySalesChart() {
 
-    const response = await fetch("http://127.0.0.1:8000/analysis/monthly-sales");
+    const response = await fetch("https://sales-analysis-and-forecating.onrender.com/analysis/monthly-sales");
 
     const data = await response.json();
 
@@ -229,13 +234,13 @@ async function loadForecastChart() {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:8000/analysis/forecast-data"
+            "https://sales-analysis-and-forecating.onrender.com/analysis/forecast-data"
         );
 
         const forecastData = await response.json();
 
         const response2 = await fetch(
-            "http://127.0.0.1:8000/analysis/monthly-sales"
+            "https://sales-analysis-and-forecating.onrender.com/analysis/monthly-sales"
         );
 
         const monthlyData = await response2.json();
@@ -411,7 +416,7 @@ async function loadTopProductsChart() {
 
     try {
 
-        const response = await fetch("http://127.0.0.1:8000/analysis/top-products");
+        const response = await fetch("https://sales-analysis-and-forecating.onrender.com/analysis/top-products");
 
         const data = await response.json();
 
@@ -521,7 +526,7 @@ loadTopProductsChart();
 document.getElementById("downloadSalesCSV").addEventListener("click", () => {
 
     window.open(
-        "http://127.0.0.1:8000/reports/sales-csv",
+        "https://sales-analysis-and-forecating.onrender.com/reports/sales-csv",
         "_blank"
     );
 
@@ -534,7 +539,7 @@ if(pdfBtn){
     pdfBtn.addEventListener("click",()=>{
 
         window.open(
-            "http://127.0.0.1:8000/reports/dashboard-pdf",
+            "https://sales-analysis-and-forecating.onrender.com/reports/dashboard-pdf",
             "_blank"
         );
 
@@ -549,7 +554,7 @@ if (forecastBtn) {
     forecastBtn.addEventListener("click", () => {
 
         window.open(
-            "http://127.0.0.1:8000/reports/forecast-csv",
+            "https://sales-analysis-and-forecating.onrender.com/reports/forecast-csv",
             "_blank"
         );
 
@@ -568,7 +573,7 @@ async function loadSalesTable() {
     // बाकीचा code...
     try {
 
-        const response = await fetch("http://127.0.0.1:8000/analysis/sales-data");
+        const response = await fetch("https://sales-analysis-and-forecating.onrender.com/analysis/sales-data");
 
         const data = await response.json();
 
@@ -639,7 +644,7 @@ async function loadCustomerGrowthChart() {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:8000/analysis/customer-growth"
+            "https://sales-analysis-and-forecating.onrender.com/analysis/customer-growth"
         );
 
         if (!response.ok) {
@@ -825,7 +830,7 @@ async function loadCustomerSummary() {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:8000/analysis/customer-summary"
+            "https://sales-analysis-and-forecating.onrender.com/analysis/customer-summary"
         );
 
         const data = await response.json();
@@ -876,7 +881,7 @@ async function loadCustomersTable() {
 
         console.log("Limit =", limit);
 
-        const response = await fetch(`http://127.0.0.1:8000/analysis/customers?limit=${limit}&search=${search}&region=${region}&segment=${segment}`);
+        const response = await fetch(`https://sales-analysis-and-forecating.onrender.com/analysis/customers?limit=${limit}&search=${search}&region=${region}&segment=${segment}`);
 
         const data = await response.json();
 
@@ -941,7 +946,7 @@ async function loadProductsTable() {
             document.getElementById("productCategory").value;
 
         const response = await fetch(
-            `http://127.0.0.1:8000/analysis/products?limit=${limit}&search=${encodeURIComponent(search)}&category=${encodeURIComponent(category)}`
+            `https://sales-analysis-and-forecating.onrender.com/analysis/products?limit=${limit}&search=${encodeURIComponent(search)}&category=${encodeURIComponent(category)}`
         );
 
         const data = await response.json();
@@ -1002,7 +1007,7 @@ async function loadProductCategories() {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:8000/analysis/product-categories"
+            "https://sales-analysis-and-forecating.onrender.com/analysis/product-categories"
         );
 
         const data = await response.json();
@@ -1042,7 +1047,7 @@ async function loadProductsChart() {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:8000/analysis/top-products"
+            "https://sales-analysis-and-forecating.onrender.com/analysis/top-products"
         );
 
         const data = await response.json();
@@ -1149,7 +1154,7 @@ async function loadDashboardCategoryChart() {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:8000/analysis/category-sales"
+            "https://sales-analysis-and-forecating.onrender.com/analysis/category-sales"
         );
 
         const data = await response.json();
@@ -1240,7 +1245,7 @@ async function loadProductsCategoryChart() {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:8000/analysis/category-sales"
+            "https://sales-analysis-and-forecating.onrender.com/analysis/category-sales"
         );
 
         const data = await response.json();
@@ -1329,7 +1334,7 @@ async function loadProductSummary() {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:8000/analysis/product-summary"
+            "https://sales-analysis-and-forecating.onrender.com/analysis/product-summary"
         );
 
         const data = await response.json();
@@ -1372,7 +1377,7 @@ async function loadRegionSalesChart() {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:8000/analysis/region-sales"
+            "https://sales-analysis-and-forecating.onrender.com/analysis/region-sales"
         );
 
         const data = await response.json();
@@ -1479,7 +1484,7 @@ async function loadRegionPerformance() {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:8000/analysis/region-performance"
+            "https://sales-analysis-and-forecating.onrender.com/analysis/region-performance"
         );
 
         const data = await response.json();
@@ -1539,7 +1544,7 @@ async function loadRegionProfitChart() {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:8000/analysis/region-profit"
+            "https://sales-analysis-and-forecating.onrender.com/analysis/region-profit"
         );
 
         const data = await response.json();
@@ -1646,7 +1651,7 @@ async function loadRegionKPIs() {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:8000/analysis/region-kpis"
+            "https://sales-analysis-and-forecating.onrender.com/analysis/region-kpis"
         );
 
         const data = await response.json();
@@ -1700,7 +1705,7 @@ async function loadSalesData() {
         Number(document.getElementById("salesLimit").value) || 10;
 
         const response = await fetch(
-            `http://127.0.0.1:8000/analysis/sales-data?limit=${limit}&offset=0`
+            `https://sales-analysis-and-forecating.onrender.com/analysis/sales-data?limit=${limit}&offset=0`
         );
 
         if (!response.ok) {
@@ -1866,7 +1871,7 @@ async function loadSalesByCategoryChart() {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:8000/analysis/category-sales"
+            "https://sales-analysis-and-forecating.onrender.com/analysis/category-sales"
         );
 
         const data = await response.json();
@@ -1950,7 +1955,7 @@ async function loadSalesByRegionChart() {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:8000/analysis/region-sales"
+            "https://sales-analysis-and-forecating.onrender.com/analysis/region-sales"
         );
 
         const data = await response.json();
@@ -2054,7 +2059,7 @@ async function loadDashboardKPI() {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:8000/analysis/dashboard-kpi"
+            "https://sales-analysis-and-forecating.onrender.com/analysis/dashboard-kpi"
         );
 
         const data = await response.json();
@@ -2092,7 +2097,7 @@ async function loadAnalysisRegionChart() {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:8000/analysis/region-sales"
+            "https://sales-analysis-and-forecating.onrender.com/analysis/region-sales"
         );
 
         const data = await response.json();
@@ -2203,7 +2208,7 @@ async function loadCategoryChart() {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:5500/analysis/category-sales"
+            "https://sales-analysis-and-forecating.onrender.com/analysis/category-sales"
         );
 
         const data = await response.json();
@@ -2300,7 +2305,7 @@ async function loadSalesTrendChart() {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:8000/analysis/monthly-sales"
+            "https://sales-analysis-and-forecating.onrender.com/analysis/monthly-sales"
         );
 
         const data = await response.json();
@@ -2431,13 +2436,13 @@ async function loadDashboardForecastChart() {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:8000/analysis/forecast-data"
+            "https://sales-analysis-and-forecating.onrender.com/analysis/forecast-data"
         );
 
         const forecastData = await response.json();
 
         const response2 = await fetch(
-            "http://127.0.0.1:8000/analysis/monthly-sales"
+            "https://sales-analysis-and-forecating.onrender.com/analysis/monthly-sales"
         );
 
         const monthlyData = await response2.json();
@@ -2597,7 +2602,7 @@ async function loadDashboardSummary() {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:8000/dashboard/summary"
+            "https://sales-analysis-and-forecating.onrender.com/dashboard/summary"
         );
 
         if (!response.ok) {
@@ -2646,7 +2651,7 @@ async function loadRecentOrders(limit = 10) {
     try {
 
         const response = await fetch(
-            `http://127.0.0.1:8000/analysis/sales-data?limit=${limit}&offset=0`
+            `https://sales-analysis-and-forecating.onrender.com/analysis/sales-data?limit=${limit}&offset=0`
         );
 
         if (!response.ok) {
@@ -2753,7 +2758,7 @@ loadRecentOrders(10);
 async function loadForecastKPIs() {
 
     const accuracyResponse = await fetch(
-    "http://127.0.0.1:8000/analysis/forecast-accuracy"
+    "https://sales-analysis-and-forecating.onrender.com/analysis/forecast-accuracy"
 );
 
 const accuracyData = await accuracyResponse.json();
@@ -2768,7 +2773,7 @@ if (accuracyData.accuracy !== undefined) {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:8000/analysis/forecast-data"
+            "https://sales-analysis-and-forecating.onrender.com/analysis/forecast-data"
         );
 
         const forecastData = await response.json();
@@ -2804,7 +2809,7 @@ if (accuracyData.accuracy !== undefined) {
         // ===============================
 
         const monthlyResponse = await fetch(
-            "http://127.0.0.1:8000/analysis/monthly-sales"
+            "https://sales-analysis-and-forecating.onrender.com/analysis/monthly-sales"
         );
 
         const monthlyData = await monthlyResponse.json();
@@ -2855,7 +2860,7 @@ async function loadCustomerKPIs() {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:8000/analysis/customer-kpis"
+            "https://sales-analysis-and-forecating.onrender.com/analysis/customer-kpis"
         );
 
         const data = await response.json();
@@ -2892,7 +2897,7 @@ async function loadRegionKPIs() {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:8000/analysis/region-kpis"
+            "https://sales-analysis-and-forecating.onrender.com/analysis/region-kpis"
         );
 
         const data = await response.json();
@@ -2934,7 +2939,7 @@ async function loadSalesKPIs() {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:8000/analysis/sales-kpis"
+            "https://sales-analysis-and-forecating.onrender.com/analysis/sales-kpis"
         );
 
         const data = await response.json();
@@ -2976,7 +2981,7 @@ async function loadBusinessInsights() {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:8000/analysis/business-insights"
+            "https://sales-analysis-and-forecating.onrender.com/analysis/business-insights"
         );
 
         const data = await response.json();
@@ -3027,7 +3032,7 @@ async function loadCustomersRegionChart() {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:8000/analysis/customers-by-region"
+            "https://sales-analysis-and-forecating.onrender.com/analysis/customers-by-region"
         );
 
         const data = await response.json();
@@ -3146,7 +3151,7 @@ document
     .addEventListener("click", () => {
 
         window.open(
-            "http://127.0.0.1:8000/reports/sales-analysis-pdf",
+            "https://sales-analysis-and-forecating.onrender.com/reports/sales-analysis-pdf",
             "_blank"
         );
 
@@ -3155,7 +3160,7 @@ document
 document.getElementById("downloadRegionPDF").addEventListener("click", () => {
 
     window.open(
-        "http://127.0.0.1:8000/reports/region-pdf",
+        "https://sales-analysis-and-forecating.onrender.com/reports/region-pdf",
         "_blank"
     );
 
@@ -3164,7 +3169,7 @@ document.getElementById("downloadRegionPDF").addEventListener("click", () => {
 
 document.getElementById("downloadDashboardPDF").addEventListener("click", () => {
     window.open(
-        "http://127.0.0.1:8000/reports/dashboard-pdf",
+        "https://sales-analysis-and-forecating.onrender.com/reports/dashboard-pdf",
         "_blank"
     );
 });
@@ -3174,7 +3179,7 @@ document
     .addEventListener("click", () => {
 
         window.open(
-            "http://127.0.0.1:8000/reports/products-pdf",
+            "https://sales-analysis-and-forecating.onrender.com/reports/products-pdf",
             "_blank"
         );
 

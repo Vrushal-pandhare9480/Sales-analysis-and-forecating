@@ -63,7 +63,7 @@ function showOTPForm(email) {
             try {
 
                 const response = await fetch(
-                    "http://127.0.0.1:8000/auth/verify-otp",
+                    "https://sales-analysis-and-forecating.onrender.com/auth/verify-otp",
                     {
 
                         method: "POST",
@@ -105,6 +105,10 @@ function showOTPForm(email) {
                     otpMessage.innerText =
                         "Email verified successfully!";
 
+
+                    // Save a simple client-side verified session
+                    localStorage.setItem("session_token", "verified");
+                    localStorage.setItem("user_email", email);
 
                     // Dashboard
                     setTimeout(function () {
@@ -164,7 +168,7 @@ loginForm.addEventListener("submit", async function (event) {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:8000/auth/send-otp",
+            "https://sales-analysis-and-forecating.onrender.com/auth/send-otp",
             {
 
                 method: "POST",
