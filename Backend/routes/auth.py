@@ -21,13 +21,10 @@ router = APIRouter(
 # ======================================================
 
 
-SMTP_EMAIL = os.getenv(
-    "SMTP_EMAIL"
-)
-
-SMTP_PASSWORD = os.getenv(
-    "SMTP_PASSWORD"
-)
+SMTP_EMAIL = os.getenv("SMTP_EMAIL")
+SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
+SMTP_SERVER = os.getenv("SMTP_SERVER", "smtp-relay.brevo.com")
+SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
 
 
 # Temporary OTP storage
@@ -60,7 +57,7 @@ def send_otp_email(receiver_email, otp):
         """
     )
 
-    with smtplib.SMTP("smtp.gmail.com", 587) as server:
+    with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
 
         server.starttls()
 
@@ -237,7 +234,7 @@ def send_welcome_email(receiver_email):
     """
         )
 
-    with smtplib.SMTP("smtp.gmail.com", 587) as server:
+    with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
 
         server.starttls()
 
@@ -248,5 +245,4 @@ def send_welcome_email(receiver_email):
         
         server.send_message(msg)
 
-print("SMTP EMAIL:", SMTP_EMAIL)
-print("SMTP PASSWORD EXISTS:", SMTP_PASSWORD is not None)
+
