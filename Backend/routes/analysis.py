@@ -3,6 +3,7 @@ from sqlalchemy import text
 from database import engine
 import pandas as pd
 from fastapi import Query
+from ml.forecast import predict_next_6_months
 
 router = APIRouter(
     prefix="/analysis",
