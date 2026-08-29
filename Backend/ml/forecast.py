@@ -75,6 +75,7 @@ def predict_next_6_months():
     # Make sure forecast table exists
     create_table_query = """
     CREATE TABLE IF NOT EXISTS forecast (
+        id INT AUTO_INCREMENT PRIMARY KEY,
         Month VARCHAR(50),
         Predicted_Sales DECIMAL(15,2)
     )
