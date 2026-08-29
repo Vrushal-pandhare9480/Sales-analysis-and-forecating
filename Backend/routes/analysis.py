@@ -128,16 +128,19 @@ def top_customers():
 @router.get("/forecast-data")
 def forecast_data():
 
-    query = """
-    SELECT
-        Month,
-        Predicted_Sales
-    FROM forecast
-    """
+    try:
 
-    df = pd.read_sql(query, engine)
+        forecast_df = predict_next_6_months()
 
-    return df.to_dict(orient="records")
+        return forecast_df.to_dict(
+            orient="records"
+        )
+
+    except Exception as e:
+
+        return {
+            "error": str(e)
+        }
 
 @router.get("/forecast-accuracy")
 def forecast_accuracy():
