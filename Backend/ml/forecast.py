@@ -72,28 +72,22 @@ def predict_next_6_months():
         "Predicted_Sales": predictions.round(2)
     })
 
-    # ==================================================
-    # CREATE FORECAST TABLE IF IT DOES NOT EXIST
-    # ==================================================
+    # Make sure forecast table exists
+    create_table_query = """
+    CREATE TABLE IF NOT EXISTS forecast (
+        Month VARCHAR(50),
+        Predicted_Sales DECIMAL(15,2)
+    )
+    """
 
     with engine.begin() as conn:
 
-        conn.execute(text("""
-            CREATE TABLE IF NOT EXISTS forecast (
-                Month VARCHAR(50),
-                Predicted_Sales FLOAT
-            )
-        """))
+        conn.execute(text(create_table_query))
 
         # Remove old forecast data
-        conn.execute(
-            text("DELETE FROM forecast")
-        )
+        conn.execute(text("DELETE FROM forecast"))
 
-    # ==================================================
-    # SAVE NEW FORECAST DATA
-    # ==================================================
-
+    # Save new forecast data
     result.to_sql(
         "forecast",
         engine,
